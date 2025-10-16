@@ -1,0 +1,12 @@
+prometheus:
+  base_url: "http://10.128.1.40:9090"
+  metrics:
+    - name: "cpu_usage"
+      query: "rate(node_cpu_seconds_total{mode!='idle'}[5m])"
+      threshold: 0.7
+    - name: "memory_usage"
+      query: "(node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes"
+      threshold: 0.50
+    - name: "disk_usage"
+      query: "((node_filesystem_size_bytes{fstype!~'tmpfs|overlay',mountpoint!='/boot'} - node_filesystem_free_bytes{fstype!~'tmpfs|overlay',mountpoint!='/boot'}) / node_filesystem_size_bytes{fstype!~'tmpfs|overlay',mountpoint!='/boot'})"
+      threshold: 0.70
